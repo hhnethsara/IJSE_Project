@@ -4,16 +4,24 @@
  */
 package edu.ijse.mvc.view;
 
+import edu.ijse.mvc.controller.CustomerController;
+import edu.ijse.mvc.dto.CustomerDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author neths
  */
 public class CustomerView extends javax.swing.JFrame {
 
+    private CustomerController customerController;
+
     /**
      * Creates new form CustomerView
      */
     public CustomerView() {
+        this.customerController = new CustomerController();
         initComponents();
     }
 
@@ -106,6 +114,11 @@ public class CustomerView extends javax.swing.JFrame {
         });
 
         savebtn.setText("Save");
+        savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savebtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,6 +238,10 @@ public class CustomerView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtaddressActionPerformed
 
+    private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
+        saveCustomer();
+    }//GEN-LAST:event_savebtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -283,4 +300,24 @@ public class CustomerView extends javax.swing.JFrame {
     private javax.swing.JTextField txtzip;
     private javax.swing.JLabel ziplabel;
     // End of variables declaration//GEN-END:variables
+
+    private void saveCustomer() {
+        CustomerDto dto = new CustomerDto();
+        dto.setCustId(Integer.parseInt(txtID.getText()));
+        dto.setTitle(txttitle.getText());
+        dto.setName(txtname.getText());
+        dto.setDob(txtdob.getText());
+        dto.setSalary(Double.parseDouble(txtsalary.getText()));
+        dto.setAddress(txtaddress.getText());
+        dto.setCity(txtcity.getText());
+        dto.setProvince(txtprovince.getText());
+        dto.setZip(txtzip.getText());
+
+        try {
+            String result = customerController.saveCustomer(dto);
+            System.out.println(result);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
