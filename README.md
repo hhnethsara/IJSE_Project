@@ -42,6 +42,3 @@ The project is created and developed using **NetBeans IDE** as part of my learni
 - **MySQL** (optional)
 - **JDBC** (optional)
 
----
-
-## 📂 Project Structure
