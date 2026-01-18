@@ -6,8 +6,10 @@ package edu.ijse.mvc.view;
 
 import edu.ijse.mvc.controller.CustomerController;
 import edu.ijse.mvc.dto.CustomerDto;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,6 +25,7 @@ public class CustomerView extends javax.swing.JFrame {
     public CustomerView() {
         this.customerController = new CustomerController();
         initComponents();
+        loadCustomer();
     }
 
     /**
@@ -55,6 +58,8 @@ public class CustomerView extends javax.swing.JFrame {
         ziplabel = new javax.swing.JLabel();
         txtzip = new javax.swing.JTextField();
         savebtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableCustomer = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,63 +67,114 @@ public class CustomerView extends javax.swing.JFrame {
         mainlabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainlabel.setText("Manage Customer");
 
-        idlabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        idlabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         idlabel.setText("Cust ID");
 
-        titlelabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        titlelabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         titlelabel.setText("Title");
 
-        doblabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txttitle.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        doblabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         doblabel.setText("DOB");
 
+        txtdob.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtdob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtdobActionPerformed(evt);
             }
         });
 
-        namelabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        namelabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         namelabel.setText("Name");
 
-        salarylabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        salarylabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         salarylabel.setText("Salary");
 
-        addresslabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtsalary.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        addresslabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         addresslabel.setText("Address");
 
+        txtaddress.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtaddressActionPerformed(evt);
             }
         });
 
-        citylabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        citylabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         citylabel.setText("City");
 
+        txtcity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtcity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcityActionPerformed(evt);
             }
         });
 
-        provincelabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        provincelabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         provincelabel.setText("Province");
 
-        ziplabel.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        txtprovince.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        ziplabel.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         ziplabel.setText("Zip");
 
+        txtzip.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtzip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtzipActionPerformed(evt);
             }
         });
 
+        savebtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         savebtn.setText("Save");
         savebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 savebtnActionPerformed(evt);
             }
         });
+
+        tableCustomer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Title", "Name", "DOB", "Salary", "Address", "City", "Province", "ZIP"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableCustomer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,7 +187,7 @@ public class CustomerView extends javax.swing.JFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -139,45 +195,47 @@ public class CustomerView extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(salarylabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(titlelabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(salarylabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txttitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtsalary, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
+                                        .addComponent(txtsalary, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(38, 38, 38)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(doblabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(namelabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtdob)
-                                        .addGap(110, 110, 110))))
+                                        .addComponent(titlelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txttitle, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(doblabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtdob)))
+                                .addGap(45, 45, 45)
+                                .addComponent(namelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(txtname))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addresslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtaddress))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(addresslabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(citylabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(txtcity, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(citylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtcity, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(provincelabel)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(txtprovince, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(83, 83, 83)
+                                        .addComponent(ziplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtprovince, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ziplabel)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtzip, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtaddress, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addComponent(savebtn, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(0, 19, Short.MAX_VALUE)))
+                                        .addComponent(txtzip, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -189,24 +247,22 @@ public class CustomerView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idlabel)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(titlelabel)
                     .addComponent(txttitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(namelabel)
                     .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(doblabel)
                     .addComponent(txtdob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(salarylabel)
                     .addComponent(txtsalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addresslabel)
                     .addComponent(txtaddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(citylabel)
                     .addComponent(txtcity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,8 +271,10 @@ public class CustomerView extends javax.swing.JFrame {
                     .addComponent(ziplabel)
                     .addComponent(txtzip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(savebtn)
-                .addGap(0, 48, Short.MAX_VALUE))
+                .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 56, Short.MAX_VALUE))
         );
 
         pack();
@@ -282,12 +340,14 @@ public class CustomerView extends javax.swing.JFrame {
     private javax.swing.JLabel citylabel;
     private javax.swing.JLabel doblabel;
     private javax.swing.JLabel idlabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel mainlabel;
     private javax.swing.JLabel namelabel;
     private javax.swing.JLabel provincelabel;
     private javax.swing.JLabel salarylabel;
     private javax.swing.JButton savebtn;
+    private javax.swing.JTable tableCustomer;
     private javax.swing.JLabel titlelabel;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtaddress;
@@ -319,5 +379,29 @@ public class CustomerView extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void loadCustomer() {
+        try {
+            String colums[] = {"ID","Name","DOB","Address","Salary"};
+            DefaultTableModel dtm = new DefaultTableModel(colums,0){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;
+                }
+            };
+            tableCustomer.setModel(dtm);
+            
+            ArrayList<CustomerDto> customerDtos = customerController.getAllCustomer();
+            
+            for(CustomerDto customerDto : customerDtos){
+                Object[] rowData = {customerDto.getCustId(),customerDto.getTitle()+" "+customerDto.getName(),customerDto.getDob(),
+                customerDto.getAddress()+" , "+customerDto.getCity(),customerDto.getSalary()};
+                dtm.addRow(rowData);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

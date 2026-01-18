@@ -8,8 +8,11 @@ import edu.ijse.mvc.db.DBConnection;
 import edu.ijse.mvc.dto.CustomerDto;
 
 import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 /**
  *
@@ -38,6 +41,31 @@ public class CustomerModel {
             return "fail";
         }
 
+    }
+
+    public ArrayList<CustomerDto> getAllCustomer()throws Exception{
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM Customer";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet rst = statement.executeQuery();
+        
+        ArrayList<CustomerDto> customerDtos = new ArrayList<>();
+        
+        while(rst.next()){
+            CustomerDto dto = new CustomerDto();
+            dto.setCustId(rst.getInt("CustID"));
+            dto.setTitle(rst.getString("CustTitle"));
+            dto.setName(rst.getString("CustName"));
+            dto.setAddress(rst.getString("Address"));
+            dto.setDob(rst.getString("DOB"));
+            dto.setSalary(rst.getDouble("Salary"));
+            dto.setCity(rst.getString("City"));
+            dto.setProvince(rst.getString("Province"));
+            dto.setZip(rst.getString("Zip"));
+            
+            customerDtos.add(dto);
+        }
+        return customerDtos;
     }
 
 }

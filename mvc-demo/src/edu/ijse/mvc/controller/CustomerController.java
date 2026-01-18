@@ -6,6 +6,7 @@ package edu.ijse.mvc.controller;
 
 import edu.ijse.mvc.dto.CustomerDto;
 import edu.ijse.mvc.model.CustomerModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,5 +21,9 @@ public class CustomerController {
     
     public String saveCustomer(CustomerDto customerDto)throws Exception{
         return customerModel.saveCustomer(customerDto);
+    }
+    
+    public ArrayList<CustomerDto> getAllCustomer() throws Exception{
+        return customerModel.getAllCustomer();
     }
 }
