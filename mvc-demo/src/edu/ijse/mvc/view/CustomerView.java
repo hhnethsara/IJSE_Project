@@ -9,6 +9,7 @@ import edu.ijse.mvc.dto.CustomerDto;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -376,32 +377,52 @@ public class CustomerView extends javax.swing.JFrame {
         try {
             String result = customerController.saveCustomer(dto);
             System.out.println(result);
+            JOptionPane.showMessageDialog(this, result);
+            loadCustomer();
+            clear();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+
         }
+    }
+
+    private void clear() {
+        txtID.setText("");
+        txttitle.setText("");
+        txtname.setText("");
+        txtsalary.setText("");
+        txtcity.setText("");
+        txtaddress.setText("");
+        txtprovince.setText("");
+        txtzip.setText("");
+        txtdob.setText("");
+
     }
 
     private void loadCustomer() {
         try {
-            String colums[] = {"ID","Name","DOB","Address","Salary"};
-            DefaultTableModel dtm = new DefaultTableModel(colums,0){
+            String colums[] = {"ID", "Name", "DOB", "Address", "Salary"};
+            DefaultTableModel dtm = new DefaultTableModel(colums, 0) {
                 @Override
-                public boolean isCellEditable(int row,int column){
+                public boolean isCellEditable(int row, int column) {
                     return false;
                 }
             };
             tableCustomer.setModel(dtm);
-            
+
             ArrayList<CustomerDto> customerDtos = customerController.getAllCustomer();
-            
-            for(CustomerDto customerDto : customerDtos){
-                Object[] rowData = {customerDto.getCustId(),customerDto.getTitle()+" "+customerDto.getName(),customerDto.getDob(),
-                customerDto.getAddress()+" , "+customerDto.getCity(),customerDto.getSalary()};
+
+            for (CustomerDto customerDto : customerDtos) {
+                Object[] rowData = {customerDto.getCustId(), customerDto.getTitle() + " " + customerDto.getName(), customerDto.getDob(),
+                    customerDto.getAddress() + " , " + customerDto.getCity(), customerDto.getSalary()};
                 dtm.addRow(rowData);
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+
         }
-        
+
     }
 }
