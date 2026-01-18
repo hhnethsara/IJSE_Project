@@ -61,6 +61,8 @@ public class CustomerView extends javax.swing.JFrame {
         savebtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCustomer = new javax.swing.JTable();
+        updatebtn = new javax.swing.JButton();
+        deletebtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,7 +177,28 @@ public class CustomerView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCustomerMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCustomer);
+
+        updatebtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        updatebtn.setText("Update");
+        updatebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updatebtnActionPerformed(evt);
+            }
+        });
+
+        deletebtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        deletebtn.setText("Delete");
+        deletebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletebtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,6 +258,10 @@ public class CustomerView extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -272,7 +299,10 @@ public class CustomerView extends javax.swing.JFrame {
                     .addComponent(ziplabel)
                     .addComponent(txtzip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updatebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 56, Short.MAX_VALUE))
@@ -300,6 +330,18 @@ public class CustomerView extends javax.swing.JFrame {
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
         saveCustomer();
     }//GEN-LAST:event_savebtnActionPerformed
+
+    private void tableCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCustomerMouseClicked
+        searchCustomer();
+    }//GEN-LAST:event_tableCustomerMouseClicked
+
+    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
+        updateCustomer();
+    }//GEN-LAST:event_updatebtnActionPerformed
+
+    private void deletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebtnActionPerformed
+        deleteCustomer();
+    }//GEN-LAST:event_deletebtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,6 +381,7 @@ public class CustomerView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addresslabel;
     private javax.swing.JLabel citylabel;
+    private javax.swing.JButton deletebtn;
     private javax.swing.JLabel doblabel;
     private javax.swing.JLabel idlabel;
     private javax.swing.JScrollPane jScrollPane1;
@@ -359,6 +402,7 @@ public class CustomerView extends javax.swing.JFrame {
     private javax.swing.JTextField txtsalary;
     private javax.swing.JTextField txttitle;
     private javax.swing.JTextField txtzip;
+    private javax.swing.JButton updatebtn;
     private javax.swing.JLabel ziplabel;
     // End of variables declaration//GEN-END:variables
 
@@ -424,5 +468,67 @@ public class CustomerView extends javax.swing.JFrame {
 
         }
 
+    }
+
+    private void searchCustomer() {
+        int id = (int) tableCustomer.getValueAt(tableCustomer.getSelectedRow(), 0);
+        CustomerDto dto;
+        try {
+            dto = customerController.searchCustomer(id);
+            if (dto != null) {
+                txtID.setText(Integer.toString(dto.getCustId()));
+                txttitle.setText(dto.getTitle());
+                txtname.setText(dto.getName());
+                txtsalary.setText(Double.toString(dto.getSalary()));
+                txtcity.setText(dto.getCity());
+                txtaddress.setText(dto.getAddress());
+                txtprovince.setText(dto.getProvince());
+                txtzip.setText(dto.getZip());
+                txtdob.setText(dto.getDob());
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer Not Found");
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void updateCustomer() {
+        CustomerDto dto = new CustomerDto();
+        dto.setCustId(Integer.parseInt(txtID.getText()));
+        dto.setTitle(txttitle.getText());
+        dto.setName(txtname.getText());
+        dto.setDob(txtdob.getText());
+        dto.setSalary(Double.parseDouble(txtsalary.getText()));
+        dto.setAddress(txtaddress.getText());
+        dto.setCity(txtcity.getText());
+        dto.setProvince(txtprovince.getText());
+        dto.setZip(txtzip.getText());
+
+        try {
+            String resp = customerController.updateCustomer(dto);
+            JOptionPane.showMessageDialog(this, resp);
+            loadCustomer();
+            clear();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+
+        }
+    }
+
+    private void deleteCustomer() {
+        int custId = Integer.parseInt(txtID.getText());
+        try {
+            String resp = customerController.deleteCustomer(custId);
+            JOptionPane.showMessageDialog(this, resp);
+            loadCustomer();
+            clear();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
 }
