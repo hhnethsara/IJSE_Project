@@ -6,10 +6,14 @@ package edu.ijse.mvc.view;
 
 import edu.ijse.mvc.controller.CustomerController;
 import edu.ijse.mvc.controller.ItemController;
+import edu.ijse.mvc.controller.OrderController;
 import edu.ijse.mvc.dto.CustomerDto;
 import edu.ijse.mvc.dto.ItemDto;
 import edu.ijse.mvc.dto.OrderDetailDto;
+import edu.ijse.mvc.dto.OrderDto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,6 +28,7 @@ public class OrderView extends javax.swing.JFrame {
     ItemController itemController;
     CustomerController customerController;
     ArrayList<OrderDetailDto> orderDetailDtos;
+    OrderController orderController;
 
     /**
      * Creates new form OrderView
@@ -32,6 +37,7 @@ public class OrderView extends javax.swing.JFrame {
         itemController = new ItemController();
         customerController = new CustomerController();
         orderDetailDtos = new ArrayList<>();
+        orderController = new OrderController();
         initComponents();
         loadTable();
     }
@@ -69,6 +75,7 @@ public class OrderView extends javax.swing.JFrame {
         txtDiscount = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblItem = new javax.swing.JTable();
+        orderbtn = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -180,6 +187,18 @@ public class OrderView extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tblItem);
 
+        orderbtn.setText("Place Order");
+        orderbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderbtnMouseClicked(evt);
+            }
+        });
+        orderbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,8 +215,9 @@ public class OrderView extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(orderbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -221,19 +241,18 @@ public class OrderView extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(custSearchbtn)
                                         .addGap(18, 18, 18)
-                                        .addComponent(lblcustdetails, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(lblcustdetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(lblDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(itemSearchbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblitemdetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGroup(layout.createSequentialGroup()
                                                 .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(addQtybtn)
-                                                .addGap(228, 228, 228)))))
+                                                .addComponent(addQtybtn))
+                                            .addComponent(lblitemdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblcustdetails1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -246,33 +265,38 @@ public class OrderView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOrderID)
-                    .addComponent(txtOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblcustdetails, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblCustId)
-                        .addComponent(txtCustID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(custSearchbtn)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblItemId)
-                        .addComponent(txtItemID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(itemSearchbtn))
-                    .addComponent(lblitemdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblcustdetails1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblqty)
-                    .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDiscount)
-                    .addComponent(addQtybtn)
-                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblOrderID)
+                            .addComponent(txtOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblcustdetails, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblCustId)
+                                .addComponent(txtCustID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(custSearchbtn)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblItemId)
+                                .addComponent(txtItemID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(itemSearchbtn))
+                            .addComponent(lblitemdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblcustdetails1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblqty)
+                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDiscount)
+                            .addComponent(addQtybtn)
+                            .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(orderbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29))
         );
 
@@ -298,6 +322,14 @@ public class OrderView extends javax.swing.JFrame {
     private void addQtybtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addQtybtnActionPerformed
         addToTable();
     }//GEN-LAST:event_addQtybtnActionPerformed
+
+    private void orderbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderbtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_orderbtnMouseClicked
+
+    private void orderbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderbtnActionPerformed
+        placeOrder();
+    }//GEN-LAST:event_orderbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,6 +384,7 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JLabel lblcustdetails1;
     private javax.swing.JLabel lblitemdetail;
     private javax.swing.JLabel lblqty;
+    private javax.swing.JButton orderbtn;
     private javax.swing.JLabel ordertile;
     private javax.swing.JTable tblItem;
     private javax.swing.JTextField txtCustID;
@@ -367,7 +400,7 @@ public class OrderView extends javax.swing.JFrame {
 
             ItemDto itemDto = itemController.searchItem(itemId);
             if (itemDto != null) {
-                lblitemdetail.setText(itemDto.getDescription() + "    " + itemDto.getPacksize() + "     Rs." + itemDto.getUnitprice());
+                lblitemdetail.setText(itemDto.getDescription() + "  |  " + itemDto.getPacksize() + "   |  Rs." + itemDto.getUnitprice() + "   |  Qty:" + itemDto.getQtyOnHand());
 
             } else {
                 JOptionPane.showMessageDialog(this, "Item not Found");
@@ -408,33 +441,105 @@ public class OrderView extends javax.swing.JFrame {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            
+
         };
         tblItem.setModel(dtm);
-        
-        
+
     }
 
-    private void clear(){
+    private void clearorder() {
         txtCustID.setText("");
         txtItemID.setText("");
         txtOrderID.setText("");
         txtQty.setText("");
         txtDiscount.setText("");
+        lblcustdetails.setText("");
+        lblitemdetail.setText("");
+
     }
+
+    private void clear() {
+        txtItemID.setText("");
+        txtQty.setText("");
+        txtDiscount.setText("");
+        lblitemdetail.setText("");
+    }
+
     private void addToTable() {
+
+        String itemCode = txtItemID.getText().trim();
+        String qtyText = txtQty.getText().trim();
+        String discountText = txtDiscount.getText().trim();
+
+        // basic validations
+        if (itemCode.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select an item.");
+            txtItemID.requestFocus();
+            return;
+        }
+
+        if (qtyText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Qty.");
+            txtQty.requestFocus();
+            return;
+        }
+
+        // default discount to 0 if empty
+        if (discountText.isEmpty()) {
+            discountText = "0";
+        }
+
+        int qty;
+        double discount;
+
+        try {
+            qty = Integer.parseInt(qtyText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Qty must be a valid integer.");
+            txtQty.requestFocus();
+            return;
+        }
+
+        try {
+            discount = Double.parseDouble(discountText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Discount must be a valid number.");
+            txtDiscount.requestFocus();
+            return;
+        }
+
         OrderDetailDto orderDetailDto = new OrderDetailDto();
-        orderDetailDto.setItemCode(txtItemID.getText());
-        orderDetailDto.setOrderQty(Integer.parseInt(txtQty.getText()));
-        orderDetailDto.setDiscount(Double.parseDouble(txtDiscount.getText()));
-        
+        orderDetailDto.setItemCode(itemCode);
+        orderDetailDto.setOrderQty(qty);
+        orderDetailDto.setDiscount(discount);
+
         orderDetailDtos.add(orderDetailDto);
-        
-        Object [] rowData = {orderDetailDto.getItemCode(),orderDetailDto.getOrderQty(),orderDetailDto.getDiscount()};
-        DefaultTableModel dtm = (DefaultTableModel)tblItem.getModel();
+
+        Object[] rowData = {itemCode, qty, discount};
+        DefaultTableModel dtm = (DefaultTableModel) tblItem.getModel();
         dtm.addRow(rowData);
-        
+
         clear();
-        
+    }
+
+    private void placeOrder() {
+        try {
+            OrderDto orderDto = new OrderDto();
+            orderDto.setCustID(Integer.parseInt(txtCustID.getText()));
+            orderDto.setOrderId(txtOrderID.getText());
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+            String date = sdf.format(new Date());
+            orderDto.setOrderDate(date);
+
+            String result = orderController.placeOrder(orderDto, orderDetailDtos);
+            JOptionPane.showMessageDialog(this, result);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+
+        } finally {
+            clearorder();
+        }
+
     }
 }

@@ -4,7 +4,6 @@
  */
 package edu.ijse.mvc;
 
-import edu.ijse.mvc.view.CustomerView;
 import edu.ijse.mvc.view.OrderView;
 
 /**
@@ -12,6 +11,7 @@ import edu.ijse.mvc.view.OrderView;
  * @author neths
  */
 public class Main {
+
     public static void main(String[] args) {
         new OrderView().setVisible(true);
     }
